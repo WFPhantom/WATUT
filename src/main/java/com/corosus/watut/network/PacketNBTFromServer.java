@@ -5,7 +5,6 @@ import com.corosus.coroutil.util.CULog;
 import com.corosus.watut.WatutMod;
 import com.corosus.watut.WatutNetworking;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -21,16 +20,6 @@ public record PacketNBTFromServer(CompoundTag nbt) implements PacketBase
 	public static final StreamCodec<RegistryFriendlyByteBuf, PacketNBTFromServer> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.COMPOUND_TAG, PacketNBTFromServer::nbt,
 			PacketNBTFromServer::new);
-
-	public PacketNBTFromServer(FriendlyByteBuf buf)
-	{
-		this(buf.readNbt());
-	}
-
-	public void write(FriendlyByteBuf buf)
-	{
-		buf.writeNbt(nbt);
-	}
 
 	public void handle(Player player)
 	{

@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererReloadShaders {
@@ -60,14 +58,10 @@ public abstract class GameRendererReloadShaders {
 
     // vanilla hardcodes the shader namespace to be "minecraft"
     private static ResourceProvider getResourceFactory(ResourceProvider resourceManager) {
-        ResourceProvider resourceFactory = new ResourceProvider() {
-            @Override
-            public Optional<Resource> getResource(ResourceLocation resourceLocation) {
-                ResourceLocation corrected = ResourceLocation.fromNamespaceAndPath(
-                        WatutMod.MODID, resourceLocation.getPath());
-                return resourceManager.getResource(corrected);
-            }
+        return resourceLocation -> {
+            ResourceLocation corrected = ResourceLocation.fromNamespaceAndPath(
+                    WatutMod.MODID, resourceLocation.getPath());
+            return resourceManager.getResource(corrected);
         };
-        return resourceFactory;
     }
 }

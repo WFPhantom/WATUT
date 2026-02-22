@@ -1,6 +1,5 @@
 package com.corosus.watut.mixin.client;
 
-import com.corosus.watut.WatutMod;
 import com.corosus.watut.client.screen.RenderHelper;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;

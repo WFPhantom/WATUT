@@ -19,8 +19,6 @@ public class ParticleStaticPartial extends ParticleRotating {
         this.yd = 0;
         this.zd = 0;
         float subSizeXFloat = (float)subSizeX / (float)this.sprite.contents().width();
-        float getU0 = getU0();
-        float getU1 = getU1();
         customU1 = getU0() + ((this.sprite.getU1() - getU0()) * subSizeXFloat);
         float subSizeYFloat = (float)subSizeY / (float)this.sprite.contents().height();
         customV1 = getV0() + ((this.sprite.getV1() - getV0()) * subSizeYFloat);

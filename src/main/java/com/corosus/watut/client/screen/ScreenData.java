@@ -11,9 +11,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -78,22 +76,12 @@ public class ScreenData {
         return texturePixelData;
     }
 
-    public void freeTexturePixelData() {
-        if (texturePixelData != null) {
-            MemoryUtil.memFree(texturePixelData);
-        }
-    }
-
     public void setTexturePixelData(ByteBuffer texturePixelData) {
         this.texturePixelData = texturePixelData;
     }
 
     public ParticleRenderType getParticleRenderType() {
         return particleRenderType;
-    }
-
-    public void setParticleRenderType(ParticleRenderType particleRenderType) {
-        this.particleRenderType = particleRenderType;
     }
 
     public synchronized boolean needsNewRenderFromPixelData() {

@@ -54,7 +54,7 @@ public abstract class WatutMod
     public static void generateJsonConfigFile(String filename) {
         String filePath = "config/" + filename;
         String fileContents = getContentsFromResourceLocation(ResourceLocation.fromNamespaceAndPath(MODID, filePath));
-        if (!fileContents.equals("")) {
+        if (!fileContents.isEmpty()) {
             File fileOut = new File("./config/" + filename);
             if (!fileOut.exists()) {
                 try {
@@ -71,8 +71,7 @@ public abstract class WatutMod
             //server side compatible way
             String str = "assets/" + resourceLocation.toString().replace(":", "/");
             InputStream in = WatutMod.class.getClassLoader().getResourceAsStream(str);
-            String contents = IOUtils.toString(in, StandardCharsets.UTF_8);
-            return contents;
+            return IOUtils.toString(in, StandardCharsets.UTF_8);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -80,14 +79,9 @@ public abstract class WatutMod
     }
 
     public void loadConfigs() {
-
     }
 
     public abstract PlayerList getPlayerList();
-
-    public static void dbg(Object obj) {
-        //System.out.println("" + obj);
-    }
 
     public abstract boolean isModInstalled(String modID);
 

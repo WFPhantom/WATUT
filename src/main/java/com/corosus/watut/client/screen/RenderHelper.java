@@ -18,16 +18,11 @@ import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.zip.Deflater;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 import java.util.zip.Inflater;
 
 public class RenderHelper {
@@ -194,7 +189,7 @@ public class RenderHelper {
         }
     }*/
 
-    public static void guiRender(GuiGraphics guiGraphics) {
+    public static void guiRender() {
         long gameTime = 0;
         if (Minecraft.getInstance().level != null) {
             gameTime = Minecraft.getInstance().level.getGameTime();
@@ -478,94 +473,6 @@ public class RenderHelper {
         return decompressionBuffer;
     }
 
-    public static ByteBuffer decompress2(ScreenData screenData, ByteBuffer compressedBuffer, int expectedSize) throws Exception {
-        Inflater inflater = new Inflater();
-
-        // Copy compressed data into a byte array
-        byte[] compressedBytes = new byte[compressedBuffer.remaining()];
-        compressedBuffer.get(compressedBytes);
-        inflater.setInput(compressedBytes);
-
-        ByteBuffer decompressionBuffer = screenData.getDecompressionBuffer();
-
-        // Use a direct buffer for decompressed data
-        if (decompressionBuffer == null) {
-            System.out.println("make new buffer");
-            decompressionBuffer = ByteBuffer.allocateDirect(expectedSize); // Allocate space for expected size
-            screenData.setDecompressionBuffer(decompressionBuffer);
-        } else {
-            decompressionBuffer.clear();
-        }
-        //ByteBuffer outputBuffer = ByteBuffer.allocateDirect(expectedSize); // Allocate space for expected size
-        byte[] temp = new byte[1024];
-
-        while (!inflater.finished()) {
-            int decompressedBytes = inflater.inflate(temp);
-            if (decompressionBuffer.remaining() < decompressedBytes) {
-                throw new IllegalStateException("Decompressed size exceeds expected size!");
-            }
-            decompressionBuffer.put(temp, 0, decompressedBytes);
-        }
-        inflater.end();
-
-        decompressionBuffer.flip(); // Prepare buffer for reading
-        return decompressionBuffer;
-    }
-
-    public static ByteBuffer decompressGZIP(ByteBuffer compressedBuffer) throws IOException {
-        // Extract the byte array from the input ByteBuffer
-        byte[] compressedBytes = new byte[compressedBuffer.remaining()];
-        compressedBuffer.get(compressedBytes);
-
-        // Use a ByteArrayInputStream to wrap the compressed data
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(compressedBytes);
-
-        // Create a GZIPInputStream for decompression
-        GZIPInputStream gzipInputStream = new GZIPInputStream(byteArrayInputStream);
-
-        // Read decompressed data into a ByteArrayOutputStream
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = gzipInputStream.read(buffer)) != -1) {
-            byteArrayOutputStream.write(buffer, 0, bytesRead);
-        }
-
-        // Close streams
-        gzipInputStream.close();
-        byteArrayInputStream.close();
-
-        // Get the decompressed data as a byte array
-        byte[] decompressedBytes = byteArrayOutputStream.toByteArray();
-
-        // Create a direct ByteBuffer and put the decompressed data into it
-        ByteBuffer directBuffer = ByteBuffer.allocateDirect(decompressedBytes.length);
-        directBuffer.put(decompressedBytes);
-        directBuffer.flip(); // Flip the buffer to prepare it for reading
-
-        return directBuffer;
-    }
-
-    public static ByteBuffer compressGZIP(ByteBuffer inputBuffer) throws IOException {
-        // Extract bytes from the input ByteBuffer
-        byte[] inputBytes = new byte[inputBuffer.remaining()];
-        inputBuffer.get(inputBytes);
-
-        // Create a ByteArrayOutputStream to hold the compressed data
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-        // Use GZIPOutputStream to compress the data
-        try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) {
-            gzipOutputStream.write(inputBytes);
-        }
-
-        // Get the compressed data as a byte array
-        byte[] compressedBytes = byteArrayOutputStream.toByteArray();
-
-        // Wrap the compressed data in a ByteBuffer and return it
-        return ByteBuffer.wrap(compressedBytes);
-    }
-
     public static ByteBuffer getPixelDataFromFrameBuffer() {
         int width = ScreenParticleRenderer.getInstance().widthScaledDown;
         int height = ScreenParticleRenderer.getInstance().heightScaledDown;
@@ -575,18 +482,4 @@ public class RenderHelper {
 
         return pixelBuffer;
     }
-
-    public static boolean validatePixelByteBuffer(ByteBuffer byteBuffer, int expectedSize, int expectedAlignment) {
-
-        if (byteBuffer == null) return false;
-
-        if (byteBuffer.limit() != expectedSize) {
-            return false;
-        }
-
-        //GL30.glPixelStorei(GL30.GL_UNPACK_ALIGNMENT, expectedAlignment);
-
-        return true;
-    }
-
 }

@@ -7,10 +7,6 @@ public class ParticleStaticLoD extends ParticleRotating {
 
     private final SpriteSetPlayer sprites;
 
-    public ParticleStaticLoD(ClientLevel pLevel, double pX, double pY, double pZ, SpriteSetPlayer pSprites) {
-        this(pLevel, pX, pY, pZ, pSprites, 1F);
-    }
-
     public ParticleStaticLoD(ClientLevel pLevel, double pX, double pY, double pZ, SpriteSetPlayer pSprites, float brightness) {
         super(pLevel, pX, pY, pZ);
         this.sprites = pSprites;

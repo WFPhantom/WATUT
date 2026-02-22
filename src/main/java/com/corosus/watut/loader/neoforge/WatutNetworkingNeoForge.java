@@ -1,6 +1,5 @@
 package com.corosus.watut.loader.neoforge;
 
-import com.corosus.coroutil.util.CULog;
 import com.corosus.watut.WatutModClient;
 import com.corosus.watut.WatutNetworking;
 import com.corosus.watut.network.*;

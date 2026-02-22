@@ -22,10 +22,6 @@ public class ParticleDynamic extends ParticleRotating {
     }
 
 
-    public ParticleDynamic(ClientLevel pLevel, double pX, double pY, double pZ, ParticleRenderType particleRenderType) {
-        this(pLevel, pX, pY, pZ, particleRenderType, 1F);
-    }
-
     public ParticleDynamic(ClientLevel pLevel, double pX, double pY, double pZ, ParticleRenderType particleRenderType, float brightness) {
         super(pLevel, pX, pY, pZ);
         this.particleRenderType = particleRenderType;
@@ -111,7 +107,6 @@ public class ParticleDynamic extends ParticleRotating {
         float v1 = 1;
 
         int j = this.getLightColor(pPartialTicks);
-        float extraDark = this.getBrightness();
         pBuffer.addVertex(avector3f[0].x(), avector3f[0].y(), avector3f[0].z()).setUv(u1, v1).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(j);
         pBuffer.addVertex(avector3f[1].x(), avector3f[1].y(), avector3f[1].z()).setUv(u1, v0).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(j);
         pBuffer.addVertex(avector3f[2].x(), avector3f[2].y(), avector3f[2].z()).setUv(u0, v0).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(j);

@@ -13,26 +13,7 @@ public class PlayerStatus {
     public enum PlayerGuiState {
 
         NONE,
-        CHAT_SCREEN,
-        INVENTORY,
-        CRAFTING,
-        ESCAPE,
-        EDIT_SIGN,
-        EDIT_BOOK,
-        CHEST,
-        ENCHANTING_TABLE,
-        ANVIL,
-        BEACON,
-        BREWING_STAND,
-        DISPENSER,
-        FURNACE,
-        GRINDSTONE,
-        HOPPER,
-        HORSE,
-        LOOM,
-        VILLAGER,
-        COMMAND_BLOCK,
-        MISC;
+        CHAT_SCREEN;
 
         private static final Map<Integer, PlayerGuiState> lookup = new HashMap<>();
         private static final List<PlayerGuiState> listPointingGuis = new ArrayList<>();
@@ -47,18 +28,11 @@ public class PlayerStatus {
             }
             listPointingGuis.remove(NONE);
             listPointingGuis.remove(CHAT_SCREEN);
-            listPointingGuis.remove(EDIT_BOOK);
-            listPointingGuis.remove(EDIT_SIGN);
-            listPointingGuis.remove(COMMAND_BLOCK);
 
             listTypingGuis.add(CHAT_SCREEN);
-            listTypingGuis.add(EDIT_BOOK);
-            listTypingGuis.add(EDIT_SIGN);
-            listTypingGuis.add(COMMAND_BLOCK);
 
             listSoundMakerGuis.remove(NONE);
             listSoundMakerGuis.remove(CHAT_SCREEN);
-            listSoundMakerGuis.remove(CHEST);
         }
 
         public static boolean isPointingGui(PlayerGuiState playerGuiState) {
@@ -118,11 +92,8 @@ public class PlayerStatus {
     private Particle particleIdle;
     private long lastTypeTime;
     private String lastTypeString = "";
-    private boolean flagForRemoval = false;
 
-    private long lastTypeTimeForAmp;
     private String lastTypeStringForAmp = "";
-    private int lastTypeDiff;
     //so we can orient the particle to the bodys orientation
     //private ModelPart body;
     private Lerpables lerpTarget = new Lerpables();
@@ -147,12 +118,7 @@ public class PlayerStatus {
 
     private BlockPos lastBlockOpened = BlockPos.ZERO;
 
-    private InventorySnapshot inventorySnapshotPlayer = new InventorySnapshot();
-    private InventorySnapshot inventorySnapshotContainer = new InventorySnapshot();
-    private InventorySnapshot inventorySnapshotCarried = new InventorySnapshot();
-    private boolean isCarriedItemFromPlayerInventory = false;
-
-    private UUID uuid = null;
+    private UUID uuid;
 
     public PlayerStatus(PlayerGuiState playerGuiState, UUID uuid) {
         this.playerGuiState = playerGuiState;
@@ -187,7 +153,6 @@ public class PlayerStatus {
 
     public void reset() {
         resetParticles();
-        WatutMod.dbg("remove trigger for " + this);
         ticksSinceLastAction = 0;
     }
 
@@ -271,9 +236,6 @@ public class PlayerStatus {
         return lerpPrev;
     }
 
-    public void setLerpPrev(Lerpables lerpPrev) {
-        this.lerpPrev = lerpPrev;
-    }
 
     public boolean isPressing() {
         return isPressing;
@@ -289,22 +251,6 @@ public class PlayerStatus {
 
     public void setTypingAmplifier(float typingAmplifier) {
         this.typingAmplifier = typingAmplifier;
-    }
-
-    public int getLastTypeDiff() {
-        return lastTypeDiff;
-    }
-
-    public void setLastTypeDiff(int lastTypeDiff) {
-        this.lastTypeDiff = lastTypeDiff;
-    }
-
-    public long getLastTypeTimeForAmp() {
-        return lastTypeTimeForAmp;
-    }
-
-    public void setLastTypeTimeForAmp(long lastTypeTimeForAmp) {
-        this.lastTypeTimeForAmp = lastTypeTimeForAmp;
     }
 
     public String getLastTypeStringForAmp() {
@@ -331,13 +277,6 @@ public class PlayerStatus {
         this.typingAmplifierSmooth = typingAmplifierSmooth;
     }
 
-    public boolean isFlagForRemoval() {
-        return flagForRemoval;
-    }
-
-    public void setFlagForRemoval(boolean flagForRemoval) {
-        this.flagForRemoval = flagForRemoval;
-    }
 
     public Particle getParticleIdle() {
         return particleIdle;
@@ -355,9 +294,6 @@ public class PlayerStatus {
         return nbtCache;
     }
 
-    public void setNbtCache(CompoundTag nbtCache) {
-        this.nbtCache = nbtCache;
-    }
 
     public int getTicksToMarkPlayerIdleSyncedForClient() {
         return ticksToMarkPlayerIdleSyncedForClient;
@@ -382,9 +318,6 @@ public class PlayerStatus {
         return screenData;
     }
 
-    public void setScreenData(ScreenData screenData) {
-        this.screenData = screenData;
-    }
 
     public BlockPos getLastBlockOpened() {
         return lastBlockOpened;
@@ -394,46 +327,9 @@ public class PlayerStatus {
         this.lastBlockOpened = lastBlockOpened;
     }
 
-    public InventorySnapshot getInventorySnapshotPlayer() {
-        return inventorySnapshotPlayer;
-    }
-
-    public void setInventorySnapshotPlayer(InventorySnapshot inventorySnapshotPlayer) {
-        this.inventorySnapshotPlayer = inventorySnapshotPlayer;
-    }
-
-    public InventorySnapshot getInventorySnapshotContainer() {
-        return inventorySnapshotContainer;
-    }
-
-    public void setInventorySnapshotContainer(InventorySnapshot inventorySnapshotContainer) {
-        this.inventorySnapshotContainer = inventorySnapshotContainer;
-    }
-
-    public InventorySnapshot getInventorySnapshotCarried() {
-        return inventorySnapshotCarried;
-    }
-
-    public void setInventorySnapshotCarried(InventorySnapshot inventorySnapshotCarried) {
-        this.inventorySnapshotCarried = inventorySnapshotCarried;
-    }
-
-    public boolean isCarriedItemFromPlayerInventory() {
-        return isCarriedItemFromPlayerInventory;
-    }
-
-    public void setCarriedItemFromPlayerInventory(boolean carriedItemFromPlayerInventory) {
-        isCarriedItemFromPlayerInventory = carriedItemFromPlayerInventory;
-    }
-
     public UUID getUuid() {
-        //if (uuid == null) return UUID.randomUUID();
         return uuid;
     }
-
-    /*public UUID getUuidUnsafe() {
-        return uuid;
-    }*/
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;

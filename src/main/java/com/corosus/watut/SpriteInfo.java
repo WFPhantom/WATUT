@@ -60,9 +60,6 @@ public class SpriteInfo {
         return sprite;
     }
 
-    public void setSprite(TextureAtlasSprite sprite) {
-        this.sprite = sprite;
-    }
 
     public String getName() {
         return name;
@@ -72,7 +69,4 @@ public class SpriteInfo {
         return spriteSetPlayer;
     }
 
-    public void setSpriteSetPlayer(SpriteSetPlayer spriteSetPlayer) {
-        this.spriteSetPlayer = spriteSetPlayer;
-    }
 }

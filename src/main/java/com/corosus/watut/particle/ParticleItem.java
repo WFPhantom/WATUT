@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.RenderBuffers;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.util.Mth;
@@ -18,10 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-
 public class ParticleItem extends ParticleRotating {
 
     public static HashSet<String> itemBlacklist = new HashSet<>();
@@ -29,7 +25,6 @@ public class ParticleItem extends ParticleRotating {
     public BakedModel bakedModel;
     public ItemStack itemStack;
     private final RenderBuffers renderBuffers;
-    private final EntityRenderDispatcher entityRenderDispatcher;
     public float xFrom;
     public float yFrom;
     public float zFrom;
@@ -37,7 +32,7 @@ public class ParticleItem extends ParticleRotating {
     public float yTo;
     public float zTo;
 
-    public ParticleItem(ClientLevel pLevel, float brightness, ItemStack itemStack, RenderBuffers renderBuffers, EntityRenderDispatcher entityRenderDispatcher, float xFrom, float yFrom, float zFrom, float xTo, float yTo, float zTo) {
+    public ParticleItem(ClientLevel pLevel, float brightness, ItemStack itemStack, RenderBuffers renderBuffers, float xFrom, float yFrom, float zFrom, float xTo, float yTo, float zTo) {
         super(pLevel, xFrom, yFrom, zFrom);
         this.lifetime = Integer.MAX_VALUE;
         this.gravity = 0.0F;
@@ -55,7 +50,6 @@ public class ParticleItem extends ParticleRotating {
         this.setColor(this.getColorRed() * brightness, this.getColorGreen() * brightness, this.getColorBlue() * brightness);
         this.bakedModel = Minecraft.getInstance().getItemRenderer().getModel(itemStack, Minecraft.getInstance().level, null, 0);
         this.itemStack = itemStack;
-        this.entityRenderDispatcher = entityRenderDispatcher;
         this.rotationYaw = pLevel.getRandom().nextFloat() * 360;
         this.renderBuffers = renderBuffers;
     }

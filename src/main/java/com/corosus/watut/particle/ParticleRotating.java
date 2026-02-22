@@ -30,24 +30,6 @@ public abstract class ParticleRotating extends TextureSheetParticle {
     public int despawnCountdown = 40;
 
 
-    public static ParticleRenderType CUSTOM = new ParticleRenderType() {
-        @Override
-        public @Nullable BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
-            RenderSystem.depthMask(true);
-            RenderSystem.disableBlend();
-            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        public void begin(BufferBuilder p_107469_, TextureManager p_107470_) {
-            RenderSystem.depthMask(true);
-            RenderSystem.disableBlend();
-        }
-
-        public String toString() {
-            return "CUSTOM";
-        }
-    };
-
     public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_FACE_CULL = new ParticleRenderType() {
         public @Nullable BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
             RenderSystem.depthMask(true);
@@ -166,10 +148,6 @@ public abstract class ParticleRotating extends TextureSheetParticle {
         this.xo = pX;
         this.yo = pY;
         this.zo = pZ;
-    }
-
-    public float getBrightness() {
-        return brightness;
     }
 
     public void setBrightness(float brightness) {

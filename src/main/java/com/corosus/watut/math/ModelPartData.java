@@ -31,19 +31,4 @@ public class ModelPartData {
         return modelPartData;
     }
 
-    public ModelPartData copyOld() {
-        ModelPartData modelPartData = new ModelPartData();
-
-        modelPartData.x = this.x;
-        modelPartData.y = this.y;
-        modelPartData.z = this.z;
-        modelPartData.xRot = this.xRot;
-        modelPartData.yRot = this.yRot;
-        modelPartData.zRot = this.zRot;
-        modelPartData.xScale = this.xScale;
-        modelPartData.yScale = this.yScale;
-        modelPartData.zScale = this.zScale;
-        return modelPartData;
-    }
-
 }

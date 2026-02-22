@@ -1,7 +1,6 @@
 package com.corosus.watut.mixin.client;
 
 import com.corosus.watut.WatutMod;
-import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.MouseHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
